@@ -1,8 +1,19 @@
-I've tuned down the average damage done in battles by tweaking the random distribution down to
-12-19 in order to make battles more balanced
+I created this game as a series of assignments for Com S 327 (Advanced Programming Techniques) at Iowa State University. 
+Each week, the professor assigned a portion of the project in the form of a pdf document specifying design requirements;
+each week building upon code written in previous weeks. After each week's due date, the professor would release a solution 
+drop for students to use as they complete the next week's assignment. I took it as a challenge to write the entirety of the 
+project myself, building upon my own code rather than the professor's. This resulted in a project unique to me, but with 
+some unique design flaws and bugs. While the project isn't perfect, I'm still proud to create a working game, and have taken
+it as a learning experience. 
 
-Press space 3 times after flying in order to avoid crashing the game (bug from previous assignment)
+To compile and run my code: 
+First, download a zip file of this project from Github, then unzip the file. Use the command line to cd (navigate) to the 
+directory and type 'make' to compile. Once the project is built, type './assignment1.09' in order to run the game
 
-Also a bug where unintended behavior is invoked if the user moves to an illegal cell on it's first move 
-
-Everything should compile and run to the spec for assignment 1.09
+To play my game:
+I've designed my game to prompt the user for input outside of the main game interface. However, there are some commands which
+the user should know before running the game. Use keys: 
+'h'- left
+'j'- down
+'k'- up
+'l'- right 
