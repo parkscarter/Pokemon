@@ -1,0 +1,8 @@
+I've tuned down the average damage done in battles by tweaking the random distribution down to
+12-19 in order to make battles more balanced
+
+Press space 3 times after flying in order to avoid crashing the game (bug from previous assignment)
+
+Also a bug where unintended behavior is invoked if the user moves to an illegal cell on it's first move 
+
+Everything should compile and run to the spec for assignment 1.09

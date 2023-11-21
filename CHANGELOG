@@ -1,0 +1,14 @@
+Nov 16; Day 1, Today I prepared by creating a directory for this assigment and making some small 
+    changes to prepare for battles. Pokemon now have maxHp, and Characters have items
+
+Nov 17; Day 2, Today I began writing code for pokemon battles, specifically for battles with wild
+    pokemon. I implemented the Pokecenter, Pokemart, and their affects. I also wrote code to check 
+    pokemon's hp and count a trainer's number of pokemon.
+
+Nov 18; Day 3, Today I continued writing code for wild pokemon battles, including code to capture pokemon 
+    at the end of a battle, using items. I just need to update to use the damage formula (using power as a placeholder)
+
+Nov 19; Day 4, Today I debugged wild pokemon battles, and updated items. Battles with wild pokemon are now done!
+
+Nov 20; Day 5, Today I used what I've learned to implement battles with trainers, I also allowed the user to open the Bag
+    outside of battle
