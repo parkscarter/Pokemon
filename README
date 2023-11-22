@@ -1,19 +1,31 @@
-I created this game as a series of assignments for Com S 327 (Advanced Programming Techniques) at Iowa State University. 
-Each week, the professor assigned a portion of the project in the form of a pdf document specifying design requirements;
-each week building upon code written in previous weeks. After each week's due date, the professor would release a solution 
-drop for students to use as they complete the next week's assignment. I took it as a challenge to write the entirety of the 
-project myself, building upon my own code rather than the professor's. This resulted in a project unique to me, but with 
-some unique design flaws and bugs. While the project isn't perfect, I'm still proud to create a working game, and have taken
-it as a learning experience. 
+How this was created:
+I created this game as a series of assignments for Com S 327 (Advanced Programming Techniques) at Iowa State University. Each week, the 
+professor assigned a portion of the project in the form of a pdf document specifying design requirements;each assignment building upon code 
+written in previous weeks. After each assignmnet's due date, the professor would release a solution drop for students to use as they 
+complete the next week's assignment. I took it as a challenge to write the entirety of the project myself, building upon my own code rather 
+than the professor's. This resulted in a project unique to me, but with some unique design characteristics and bugs. While the project 
+isn't perfect, I'm still proud to create a mostly reliable game, and have taken this semester as a learning experience. 
 
 To compile and run my code: 
-First, download a zip file of this project from Github, then unzip the file. Use the command line to cd (navigate) to the 
+First, download a zip file of this project from Github, then unzip the file. Use the command line to cd to the 
 directory and type 'make' to compile. Once the project is built, type './assignment1.09' in order to run the game
 
 To play my game:
-I've designed my game to prompt the user for input outside of the main game interface. However, there are some commands which
-the user should know before running the game. Use keys: 
+Upon compilation, the user is promted to select a starter pokemon. Next, the user is spawned in the center 'map' in the game's 'world'. 
+The world consists of over 160,000 maps (401 x 401). The user can freely move between maps, battle other trainers, encounter wild pokemon, 
+and enter buildings. I've designed my game to prompt the user for input outside of the main game interface. However, there are some 
+commands which the user should know before running the game. Use keys: 
 'h'- left
 'j'- down
 'k'- up
 'l'- right 
+'y'- up and left (diagonally)
+'u'- up and right (diagonally)
+'b'- down and left (diagonally)
+'n'- down and right (diagonally)
+'t'- displays a list of all npc trainers on current map
+'f'- allows the user to fly to any map (can be turned off at runtime)
+'B'- open bag to use healing potion or revive
+
+How the game works (FOR NERDS):
+Before the player is prompted to choose a starter pokemon, the game allocates memory for all 160,000+ maps, then
