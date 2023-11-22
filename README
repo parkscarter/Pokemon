@@ -2,9 +2,10 @@ How this was created:
 I created this game as a series of assignments for Com S 327 (Advanced Programming Techniques) at Iowa State University. Each week, the 
 professor assigned a portion of the project in the form of a pdf document specifying design requirements;each assignment building upon code 
 written in previous weeks. After each assignmnet's due date, the professor would release a solution drop for students to use as they 
-complete the next week's assignment. I took it as a challenge to write the entirety of the project myself, building upon my own code rather 
-than the professor's. This resulted in a project unique to me, but with some unique design characteristics and bugs. While the project 
-isn't perfect, I'm still proud to create a mostly reliable game, and have taken this semester as a learning experience. 
+complete the next week's assignment. I took it as a challenge to write the entirety of the project myself, in one file (now over 4,000 
+lines), building upon my own code rather than the professor's. This resulted in a project unique to me, but with some unique design 
+characteristics and bugs. While the project isn't perfect, I'm still proud to have created a mostly reliable game, and have taken this 
+semester as an incredible learning experience. 
 
 To compile and run my code: 
 First, download a zip file of this project from Github, then unzip the file. Use the command line to cd to the 
@@ -28,4 +29,27 @@ commands which the user should know before running the game. Use keys:
 'B'- open bag to use healing potion or revive
 
 How the game works (FOR NERDS):
-Before the player is prompted to choose a starter pokemon, the game allocates memory for all 160,000+ maps, then
+Before the player is prompted to choose a starter pokemon, the game allocates memory for all 160,000+ maps including each map's characters, 
+then pokemon data is parsed from a CSV database, the first map is created, and the player is spawned after they choose a starter pokemon. 
+Character movement runs based off of a loop which checks which character's turn it is, and moves them to their new location. Game 
+interactions are triggered when the pc is on the same space as another trainer, or if they encounter a wild pokemon (10 % chance in tall 
+grass). 
+
+Each map has 4 gates, each leading to neighboring maps, however gates along the edge are closed. Maps are generated randomly and only when 
+the player visits the map. Map gates match up with neighboring map gates; when the player enters a neighboring map the map's data is saved, 
+then the player is spawned in the correct location (just inside the gate on the new map). If the player were to go back to the first 
+(original) map, the existing map's data is loaded and the pc is spawned back into the first map.
+
+The CSV database consists of 9 CSV files which is included in this repository, each line in the 9 CSV files is stored as an instance of an 
+object in a global vector which can be referenced throughout the program. This consists of pokemon from all generations of pokemon games 
+and was provided to us by our professor. Pokemon are spawned using a random distribution meaning all pokemon can spawn in any instance.
+
+By default, each map contains 10 npc's, each holding anywhere between 1 and 6 pokemon. The pc and the 10 npc's are stored in an array of 
+Characters which are associated with each map. If the pc isn't currently on a map, that map's pc character is null, meaning there's only 
+one pc in the game. All characters have a time penalty, which corresponds to the type of terrain they are on. This time penalty member also 
+allows each trainer to be put in an order of turn, allowing trainers to move one at a time, waiting for input when it's the pc's turn.
+
+Each character holds anywehre between 1 and 6 pokemon. Pokemon, along with their moves and stats are loaded from the CSV database. The pc 
+is spawned with a starter pokemon, but can obtain more by capturing wild pokemon in battle. If all of a trainer's pokemeon are knocked out 
+(have 0 hp), they are considered 'defeated' and cannot battle. Pokemon battles (wild and trainer) are turn based. Each pokemon first 
+chooses a move (pc by input, and npc by random) After that, the move with highest priority is executed first, then the other move. If a pokemon is knocked out (has 0 hp) it cannot attack. 
