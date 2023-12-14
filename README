@@ -1,7 +1,7 @@
 How this was created:
 I created this game as a series of assignments for Com S 327 (Advanced Programming Techniques) at Iowa State University. Each week, the 
-professor assigned a portion of the project in the form of a pdf document specifying design requirements;each assignment building upon code 
-written in previous weeks. After each assignmnet's due date, the professor would release a solution drop for students to use as they 
+professor assigned a portion of the project in the form of a pdf document specifying design requirements; each assignment building upon code 
+written in previous weeks. After each assignmnent's due date, the professor would release a solution drop for students to use as they 
 complete the next week's assignment. I took it as a challenge to write the entirety of the project myself, in one file (now over 4,000 
 lines), building upon my own code rather than the professor's. This resulted in a project unique to me, but with some unique design 
 characteristics and bugs. While the project isn't perfect, I'm still proud to have created a mostly reliable game, and have taken this 

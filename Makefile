@@ -1,5 +1,5 @@
-assignment1.09: assignment1.09.cpp
-		g++ -Wall -Werror assignment1.09.cpp -o assignment1.09 -lm -lncurses -s
+pokemon: pokemon.cpp
+		g++ -std=c++11 pokemon.cpp -o pokemon -lm -lncurses
 		
 clean:
-		rm -f assignment1.09
+		rm -f pokemon
