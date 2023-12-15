@@ -34,7 +34,9 @@ commands which the user should know before running the game. Use keys:
 'f'- allows the user to fly to any map (can be turned off at runtime)
 'B'- open bag to use healing potion or revive
 
-How the game works (FOR NERDS):
+You can also use WASD to move around the map
+
+How the game works:
 Before the player is prompted to choose a starter pokemon, the game allocates memory for all 160,000+ maps including each map's characters, 
 then pokemon data is parsed from a CSV database, the first map is created, and the player is spawned after they choose a starter pokemon. 
 Character movement runs based off of a loop which checks which character's turn it is, and moves them to their new location. Game 
