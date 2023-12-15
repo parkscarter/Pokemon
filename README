@@ -1,27 +1,32 @@
 How this was created:
-I created this game as a series of assignments for Com S 327 (Advanced Programming Techniques) at Iowa State University. Each week, the 
-professor assigned a portion of the project in the form of a pdf document specifying design requirements; each assignment building upon code 
-written in previous weeks. After each assignmnent's due date, the professor would release a solution drop for students to use as they 
-complete the next week's assignment. I took it as a challenge to write the entirety of the project myself, in one file (now over 4,000 
-lines), building upon my own code rather than the professor's. This resulted in a project unique to me, but with some unique design 
-characteristics and bugs. While the project isn't perfect, I'm still proud to have created a mostly reliable game, and have taken this 
-semester as an incredible learning experience. 
+I created this game as a series of assignments for Com S 327 (Advanced Programming Techniques) 
+at Iowa State University. Each week, the professor assigned a portion of the project in the form 
+of a pdf document specifying design requirements; each assignment building upon code written in
+previous weeks. After each assignmnent's due date, the professor would release a solution drop 
+for students to use as they complete the next week's assignment. I took it as a challenge to write 
+the entirety of the project myself, in one file (now over 4,000 lines), building upon my own code
+rather than the professor's. This resulted in a project unique to me, but with some unique design 
+characteristics and bugs. While the project isn't perfect, I'm still proud to have created a mostly 
+reliable game, and have taken this semester as an incredible learning experience. 
 
 To compile and run my code: 
-First, download a zip file of this project from Github, then unzip the file. Use the command line to cd to the 
-directory (Pokemon-main) and type 'make' to compile. Once the project is built, type './pokemon' in order to run the game
+First, download a zip file of this project from Github, then unzip the file. The project should unzip 
+into a folder called Pokemon-main. Use the command line to cd to the directory:
+(cd Downloads)->(cd Pokemon-main). 
+Type 'make' to compile. Once the project is built, type './pokemon' in order to run the game
 
 Full Difficulty- in order to disable flying and gain the entire experience, add tag -f after './pokemon'
-Number of Trainers- be default 10 opposing trainers are spawned into each map, alter the number by adding tag -n x
-  Where x is the number of trainers you'd like to spawn into each map
+Number of Trainers- be default 10 opposing trainers are spawned into each map, alter the number by adding 
+tag -n x Where x is the number of trainers you'd like to spawn into each map
 
-For example, to run a game with flying disabled and with 20 opposing trainers on each page, use command: './pokemon -f -n 20'
+For example, to run a game with flying disabled and 20 opponets on each page, use command: './pokemon -f -n 20'
 
 To play my game:
-Upon compilation, the user is promted to select a starter pokemon. Next, the user is spawned in the center 'map' in the game's 'world'. 
-The world consists of over 160,000 maps (401 x 401). The user can freely move between maps, battle other trainers, encounter wild pokemon, 
-and enter buildings. I've designed my game to prompt the user for input outside of the main game interface. However, there are some 
-commands which the user should know before running the game. Use keys: 
+Upon compilation, the user is promted to select a starter pokemon. Next, the user is spawned in the center 
+'map' in the game's 'world'. The world consists of over 160,000 maps (401 x 401). The user can freely move 
+between maps, battle other trainers, encounter wild pokemon, and enter buildings. I've designed my game to 
+prompt the user for input outside of the main game interface. However, there are some commands which the 
+user should know before running the game. Use keys: 
 'h'- left
 'j'- down
 'k'- up
@@ -34,7 +39,7 @@ commands which the user should know before running the game. Use keys:
 'f'- allows the user to fly to any map (can be turned off at runtime)
 'B'- open bag to use healing potion or revive
 
-You can also use WASD to move around the map
+You can also use WASD to move around for a simpler experience
 
 How the game works:
 Before the player is prompted to choose a starter pokemon, the game allocates memory for all 160,000+ maps including each map's characters, 
