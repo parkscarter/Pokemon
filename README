@@ -9,7 +9,13 @@ semester as an incredible learning experience.
 
 To compile and run my code: 
 First, download a zip file of this project from Github, then unzip the file. Use the command line to cd to the 
-directory and type 'make' to compile. Once the project is built, type './assignment1.09' in order to run the game
+directory (Pokemon-main) and type 'make' to compile. Once the project is built, type './pokemon' in order to run the game
+
+Full Difficulty- in order to disable flying and gain the entire experience, add tag -f after './pokemon'
+Number of Trainers- be default 10 opposing trainers are spawned into each map, alter the number by adding tag -n x
+  Where x is the number of trainers you'd like to spawn into each map
+
+For example, to run a game with flying disabled and with 20 opposing trainers on each page, use command: './pokemon -f -n 20'
 
 To play my game:
 Upon compilation, the user is promted to select a starter pokemon. Next, the user is spawned in the center 'map' in the game's 'world'. 
