@@ -437,7 +437,7 @@ public:
     int initialized;
 };
 
-
+//Initialize global vectors
 std::vector<Pokemon*> pokemon;
 std::vector<Pokemon_species*> pokemon_species;
 std::vector<Experience*> experience;
@@ -445,6 +445,7 @@ std::vector<Type_names*> type_names;
 std::vector<Pokemon_types*> pokemon_types;
 std::vector<Pokemon*> storedPokemon; 
 
+//Forward declaration of functions
 void updatehDist(Map* m, Character * c);
 
 void updaterDist(Map* m, Character * c);
@@ -472,6 +473,7 @@ int checkNorth(Map*** mapArray, int x, int y){
     return 0;
 }
 
+//Returns the position of the below map's north gate, or 0 if null
 int checkSouth(Map*** mapArray, int x, int y){
     if (y != 400){
         if (mapArray[x][y + 1] == NULL){
@@ -484,6 +486,7 @@ int checkSouth(Map*** mapArray, int x, int y){
     return 0;
 }
 
+//Returns the position of the map to the left's East gate, or 0 if null
 int checkWest(Map*** mapArray, int x, int y){
     if (x != 0){
         if (mapArray[x - 1][y] == NULL){
@@ -496,6 +499,7 @@ int checkWest(Map*** mapArray, int x, int y){
     return 0;
 }
 
+//Returns the position of the map to the right's gate, or 0 if null
 int checkEast(Map*** mapArray, int x, int y){
     if (x != 400){
         if (mapArray[x + 1][y] == NULL){
@@ -508,7 +512,10 @@ int checkEast(Map*** mapArray, int x, int y){
     return 0;
 }
 
-    //Return 0 if True
+/*
+Checks that x and y coordinates are valid coordinates, includes border cells
+Return 0 if True
+*/
 int isValid(int x, int y){
     if (x >= 0 && x <= 79 && y >= 0 && y <= 20){
         return 0;
@@ -516,6 +523,10 @@ int isValid(int x, int y){
     return 1;
 }
 
+/*
+Checks that x and y coordinates are valid coordinates, returns encoded values if coordinate is on border
+Return 0 if True
+*/
 int isOnMap(int x, int y){
     if (x > 0 && x < 79 && y > 0 && y < 20){
         return 0;
@@ -538,7 +549,10 @@ int isOnMap(int x, int y){
 }
 
 
-    //Return 0 if True
+/*
+Checks if a location on a map is of an allowed terrain type
+Return 0 if True
+*/
 int placeValid(Map * m, int x, int y, char type){
     if (m->grid[x][y] == '#' || m->grid[x][y] == '.' || m->grid[x][y] == 'M' || m->grid[x][y] == 'C' || m->grid[x][y] == ':'){
         return 0;
@@ -556,7 +570,10 @@ int placeValid(Map * m, int x, int y, char type){
     }
 }
 
-//Returns 0 if space is free, 1 otherwise
+/*
+Checks if a character is on a space
+Returns 0 if space is free, 1 otherwise
+*/
 int spaceFree(Character *** characters, int numPlayers, int x, int y){
     int i;
     for (i = 0; i < numPlayers; i ++){
@@ -579,6 +596,7 @@ int checkPcPokemon(Character* c){
     return numPoke;
 }
 
+//Returns number of moves a pokemon has, 1 or 2
 int checkPokemonMoves(Pokemon* p){
     int i, numMoves;
     numMoves = 0;
@@ -590,6 +608,10 @@ int checkPokemonMoves(Pokemon* p){
     return numMoves;
 }
 
+/*
+Checks if a space holds a defeated trainer,
+returns 0 if true, 1 elsewise
+*/
 int hasDefeatedPlayer(Map * m, Character ** characters, int numPlayers, int x, int y){
     int i;
     for (i = 0; i < numPlayers; i ++){
@@ -602,6 +624,10 @@ int hasDefeatedPlayer(Map * m, Character ** characters, int numPlayers, int x, i
     return 1;
 }
 
+/*
+Checks all of a user's pokemon to see if xp > (1 + level) ^2
+incrememnt level if true
+*/
 int checkLevelUp(Character* c){
     int i;
     for (i = 0; i < 6; i++){
@@ -615,6 +641,7 @@ int checkLevelUp(Character* c){
     return 0;
 }
 
+//Calculate manhattan distance from center based on x and y map coordinates
 int calculateMDist(int x, int y){
     x -= 200;
     y -= 200;
