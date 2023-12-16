@@ -10,6 +10,10 @@ characteristics and bugs. While the project isn't perfect, I'm still proud to ha
 reliable game, and have taken this semester as an incredible learning experience. 
 
 To compile and run my code: 
+
+***Full Exposure*** my game contains some bugs, it sometimes crashes unexpectedly for apparently no reason
+  Don't be alarmed, simply run the game again and enjoy from the beginning :)
+
 First, download a zip file of this project from Github, then unzip the file. The project should unzip 
 into a folder called Pokemon-main. Use the command line to cd to the directory:
 (cd Downloads)->(cd Pokemon-main). 
