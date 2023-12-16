@@ -650,9 +650,15 @@ int calculateMDist(int x, int y){
     return (absX + absY);
 }
 
+/*
+This function first copies some information about the pc, then uses an encoded value for direction
+to change the 'current map' which is shown to the user, if this map hasn't been generated yet,
+generate new terrain, then place the players, including the copied pc into the new map
+*/
 int changeMap(Map*** mapArray, Map ** m, int direction, int numPlayers, int* worldX, int* worldY){
     int newX, newY, oldPCx, oldPCy, newPCx, newPCy, i, pot, rev, bal, numPokemon, num_coin;
     std::vector<Pokemon*> pokemon;
+    //Copy pc info
     pokemon = (*m)->characters[0]->pokemonArray;
     oldPCx = (*m)->characters[0]->mapX;
     oldPCy = (*m)->characters[0]->mapY;
@@ -663,6 +669,7 @@ int changeMap(Map*** mapArray, Map ** m, int direction, int numPlayers, int* wor
     num_coin = (*m)->characters[0]->numCoins;
 
 
+    //Check direction
     if (direction == 1 && (*m)->worldx > 0){       //WEST
         newX = (*m)->worldx - 1;
         newY = (*m)->worldy;
@@ -688,6 +695,7 @@ int changeMap(Map*** mapArray, Map ** m, int direction, int numPlayers, int* wor
         newPCy = 1;
     }
 
+    //Move maps
     *worldX = newX;
     *worldY = newY;
 
@@ -731,10 +739,12 @@ int changeMap(Map*** mapArray, Map ** m, int direction, int numPlayers, int* wor
 
 }
 
+/*
+This function checks all players' locations against eachother, finds new next move if next move points to 
+where a player is
+*/
 void checkAllMoves(Map*** mapArray, Character *** players, int numPlayers, Map * m, int * worldX, int * worldY){
     int i, j;
-    //Nested for loop checks all players against eachother, finds new next move if next move points to 
-    //where a player is
     for (i = 0; i < numPlayers; i ++){
         for (j = 0; j < numPlayers; j ++){
             if (j != i){
@@ -746,6 +756,10 @@ void checkAllMoves(Map*** mapArray, Character *** players, int numPlayers, Map *
     }
 }
 
+/*
+This function provides a user interface for the player to choose a pokemon to be swapped out of 
+their current party, and into the pokedex
+*/
 int selectSwap(Character * c){
     int i, chosenPokemon;
     for (i = 0; i < 25; i ++){
@@ -768,6 +782,9 @@ int selectSwap(Character * c){
 
 }
 
+/*
+Provides a user interface for the player to choose a pokemon from their pokedex to be swapped into their party
+*/
 int swapPokemon(Character * c){
     size_t i, scrollPos;
     int ui, num;
@@ -813,10 +830,6 @@ int swapPokemon(Character * c){
         else if (ui == 27){
             return 0;
         }
-
-        //for (j = 0; j < storedPokemon.size(); j++){
-        //    mvprintw(j+7, 0, "%d: %s; level: %d", j, storedPokemon[j]->name.c_str(), storedPokemon[j]->level);
-        //}
     }
 }
 
