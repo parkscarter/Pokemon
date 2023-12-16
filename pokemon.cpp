@@ -632,7 +632,7 @@ int checkLevelUp(Character* c){
     int i;
     for (i = 0; i < 6; i++){
         if (c->pokemonArray[i] != nullptr){
-            while (c->pokemonArray[i]->xp >= ((c->pokemonArray[i]->level + 1) * (c->pokemonArray[i]->level + 1))){
+            while (c->pokemonArray[i]->xp >= ((c->pokemonArray[i]->level + 1) * (c->pokemonArray[i]->level + 1) * 3)){
                 c->pokemonArray[i]->level += 1;
                 c->pokemonArray[i]->resetStats();
             }
@@ -783,7 +783,8 @@ int selectSwap(Character * c){
 }
 
 /*
-Provides a user interface for the player to choose a pokemon from their pokedex to be swapped into their party
+This function provides a user interface for the player to choose a pokemon 
+from their pokedex to be swapped into their party
 */
 int swapPokemon(Character * c){
     size_t i, scrollPos;
@@ -833,6 +834,10 @@ int swapPokemon(Character * c){
     }
 }
 
+/*
+This function provides a user interface for a pokemart
+here, the user can buy items or swap pokemon with the pokedex
+*/
 int enterPokeMart(Character * c){
     int i, ui;
     ui = 'a';
@@ -919,6 +924,10 @@ int enterPokeMart(Character * c){
     return 0;
 }
 
+/*
+Provides a user interface for the PokeCenter
+here, the user's pokemon are healed for free, and the user can pay coins to level up pokemon
+*/
 int enterPokeCenter(Character* c){
     int i;
 
@@ -945,7 +954,7 @@ int enterPokeCenter(Character* c){
         ui = getch();
         if (ui - '1' < c->num_pokemon && ui - '1' >= 0 && c->numCoins >= 2 * (c->pokemonArray[ui - '1']->level + 1)){        //if ui = '1' or '2' etc (num_pokemon)
             c->pokemonArray[ui - '1']->level += 1;
-            c->pokemonArray[ui - '1']->xp = c->pokemonArray[ui - '1']->level * c->pokemonArray[ui - '1']->level;
+            c->pokemonArray[ui - '1']->xp = c->pokemonArray[ui - '1']->level * c->pokemonArray[ui - '1']->level * 3;
             c->pokemonArray[ui - '1']->resetStats();
             c->numCoins -= (2 * (c->pokemonArray[ui - '1']->level));
 
@@ -966,6 +975,10 @@ int enterPokeCenter(Character* c){
     return 0;
 }
 
+/*
+This function provies a sub-interface for users to choose a pokemon out of their party
+to switch into the pokedex while swapping pokemon
+*/
 int swapPcPokemon(Character* c){
     int i, chosenPokemon;
     for (i = 0; i < 10; i++){
@@ -986,6 +999,9 @@ int swapPcPokemon(Character* c){
     return chosenPokemon;
 }
 
+/*
+This function provides an interface for the user to select a pokemon to revive
+*/
 int revPokemon(Character* c){
     int i, chosenPokemon;
     for (i = 0; i < 10; i++){
@@ -1006,6 +1022,9 @@ int revPokemon(Character* c){
     return chosenPokemon;
 }
 
+/*
+This function provides an interface for the user to select a pokemon to heal
+*/
 int healPokemon(Character* c){
     int i, chosenPokemon;
     for (i = 0; i < 10; i++){
@@ -1026,6 +1045,9 @@ int healPokemon(Character* c){
     return chosenPokemon;
 }
 
+/*
+This function provides the base text when in a battle with another trainer
+*/
 void printTrainerBattle(Character* pc, Character* npc, int op, int mp){
     int i, numMoves;
     for (i = 0; i < 30; i ++){
@@ -1042,6 +1064,9 @@ void printTrainerBattle(Character* pc, Character* npc, int op, int mp){
     refresh();
 }
 
+/*
+This function is called when the user wants to see another user's pokemon
+*/
 int showNpcPokemon(Character * npc){
     int i;
     char buff [256];
@@ -1052,7 +1077,6 @@ int showNpcPokemon(Character * npc){
     
     mvprintw(2,0,"Press any key to esc");
     for (i = 0; i < npc->num_pokemon; i ++){
-        //snprintf(buff, sizeof(buff), "name: %s, level: %d", npc->pokemonArray[i]->name.c_str(), npc->pokemonArray[i]->level);
         snprintf(buff, sizeof(buff), "POKEMON %d: \n    %s (%s), level: %d, move 1: %s, move 2: %s \n    stats: hp: %d, attack: %d, defense: %d, speed: %d\n    s_attack: %d, s_defense: %d, gender: %s, xp: %d", i + 1, npc->pokemonArray[i]->name.c_str(), npc->pokemonArray[i]->isShiny.c_str(),npc->pokemonArray[i]->level, npc->pokemonArray[i]->moveSet[0]->name.c_str(), npc->pokemonArray[i]->moveSet[1]->name.c_str(), npc->pokemonArray[i]->hp, npc->pokemonArray[i]->attack, npc->pokemonArray[i]->defense, npc->pokemonArray[i]->speed, npc->pokemonArray[i]->s_attack, npc->pokemonArray[i]->s_defense, npc->pokemonArray[i]->gender.c_str(), npc->pokemonArray[i]->xp);
         mvprintw((4 * i) + 3, 0, buff);
     }
@@ -1061,13 +1085,15 @@ int showNpcPokemon(Character * npc){
     return 0;
 }
 
-
+/*
+This function is the main workhorse when the pc is in battle with another trainer
+First, the player must choose thier pokemon, then takes input for moves, bag etc.
+Uses move priority to choose which pokemon's move hits first
+*/
 int enterBattle(Character * pc, Character * npc){
     int i, chosenPokemon, otp, ui, moveIdx, turnP, opm, idx, damage, aod, random;
     double crit, stab;
     chosenPokemon = -1;
-    //npc->defeated = 0;
-    //npc->time_pen = INT_MAX;
     for (i = 0; i < 30; i ++){
         move(i,0);
         clrtoeol();
@@ -1150,7 +1176,6 @@ int enterBattle(Character * pc, Character * npc){
                 turnP = 3;
             }
             else if(ui == '2'){
-                //usePotion(c, chosenPokemon);
                 if (pc->numPot > 0){
                     idx = healPokemon(pc);
                     if(pc->pokemonArray[idx]->hp > 0){
@@ -1249,7 +1274,10 @@ int enterBattle(Character * pc, Character * npc){
             }
             
             if (npc->pokemonArray[otp]->hp <= 0){
-                pc->pokemonArray[chosenPokemon]->xp += npc->pokemonArray[otp]->level;
+                for (i = 0; i < pc->num_pokemon; i++){
+                    pc->pokemonArray[i]->xp += 1;
+                }
+                pc->pokemonArray[chosenPokemon]->xp += npc->pokemonArray[otp]->level + 1;
                 npc->pokemonArray[otp]->hp = 0;
                 if (npc->pokemonArray[otp + 1] != nullptr){
                     otp += 1;
@@ -1413,7 +1441,10 @@ int enterBattle(Character * pc, Character * npc){
                 clrtoeol();
             }
             if (npc->pokemonArray[otp]->hp <= 0){
-                pc->pokemonArray[chosenPokemon]->xp += npc->pokemonArray[otp]->level;
+                for (i = 0; i < pc->num_pokemon; i++){
+                    pc->pokemonArray[i]->xp += 1;
+                }
+                pc->pokemonArray[chosenPokemon]->xp += npc->pokemonArray[otp]->level + 1;
                 npc->pokemonArray[otp]->hp = 0;
                 if (npc->pokemonArray[otp + 1] != nullptr){
                     otp += 1;
@@ -1543,7 +1574,9 @@ int showTrainers(Character ** players, int numPlayers){
     }
 }
 
-//This function "Randomly" places the pc on a map m
+/*
+This function "Randomly" places the pc on a map m (somewhere on the path)
+*/
 void placePC(Map ** m, Character * c){
     c->type = '@';
     c->defeated = 1;
@@ -1621,6 +1654,9 @@ void gameTurn(Map*** mapArray, Map* m, Character *** players, int numPlayers, in
     printMap(m, m->characters, numPlayers, m->worldx, m->worldy);
 }
 
+/*
+This function takes user input while the player is looking at the map, moving the @ symbol around
+*/
 void takePCmove(Map*** mapArray, Character *** players, Character * c, Map ** m, int numPlayers, int* worldX, int* worldY){
     int x, y, i;
     int ui = getch();
@@ -1871,7 +1907,6 @@ void takePCmove(Map*** mapArray, Character *** players, Character * c, Map ** m,
             for (i = 0; i < numPlayers; i++){
                 findNextMove(mapArray, &(mapArray[x][y]->characters), mapArray[x][y]->characters[i], &mapArray[x][y], numPlayers, worldX, worldY);
             }
-            //printMap(mapArray[x][y], (mapArray[x][y])->characters, numPlayers, x, y);
 
         default:
             //I dont wan't to break, but rather take a new input
@@ -1880,6 +1915,9 @@ void takePCmove(Map*** mapArray, Character *** players, Character * c, Map ** m,
     }
 }
 
+/*
+This function places a copy of the new pokemon into the user's deck
+*/
 int capturePokemon(Pokemon* p, Character* c){
     int i;
     i = 0;
@@ -1895,6 +1933,9 @@ int capturePokemon(Pokemon* p, Character* c){
     return 0;
 }
 
+/*
+This function provides a base ui for the battle state with a wild pokemon. 
+*/
 void printBattleState(Pokemon* p, Character* c, int idx){
     int i, numMoves;
     for (i = 0; i < 30; i ++){
@@ -1910,7 +1951,11 @@ void printBattleState(Pokemon* p, Character* c, int idx){
     }
 }
 
-//p is the other pokemon, c is my pc
+/*
+This function is the main workhorse when the user encounters a wild pokemon, here the user's 
+pokemon can attack the wild pokemon, or the user can throw a pokeball, attempting to capture the wild pokemon
+p is the other pokemon, c is my pc
+*/
 int pokemonBattle(Pokemon* p, Character* c){
     int i, chosenPokemon, ui, moveIdx, numOpm, opm, turnP, idx, random, damage, aod;
     float crit, stab;
@@ -1920,7 +1965,6 @@ int pokemonBattle(Pokemon* p, Character* c){
         clrtoeol();
     }
 
-    //numPoke = checkPcPokemon(c);
     numOpm = checkPokemonMoves(p);
     mvprintw(0,0, "You encountered a wild %s! level: %d", p->name.c_str(), p->level);
     mvprintw(1,0, "First, select a pokemon (type number to choose):");
@@ -2165,7 +2209,10 @@ int pokemonBattle(Pokemon* p, Character* c){
                     usleep(1500000);
                 }
                 c->numCoins += 1;
-                c->pokemonArray[chosenPokemon]->xp += p->level;
+                for (i = 0; i < c->num_pokemon; i++){
+                    c->pokemonArray[i]->xp += 1;
+                }
+                c->pokemonArray[chosenPokemon]->xp += p->level + 1;
                 return 0;
             }
             if (rand() % 100 < p->moveSet[opm]->accuracy){
@@ -2326,7 +2373,10 @@ int pokemonBattle(Pokemon* p, Character* c){
                     refresh();
                     usleep(1500000);
                 }
-                c->pokemonArray[chosenPokemon]->xp += p->level;
+                for (i = 0; i < c->num_pokemon; i++){
+                    c->pokemonArray[i]->xp += 1;
+                }
+                c->pokemonArray[chosenPokemon]->xp += p->level + 1;
                 c->numCoins += 1;
                 return 0;
             }
@@ -2391,6 +2441,7 @@ int pokemonBattle(Pokemon* p, Character* c){
 }
 
 /*
+This function is called when a user encounters a wild pokemon, 
 Choose a random pokemon, set it's level
 sets its moves and stats, then starts a battle with it
 */
@@ -2423,6 +2474,7 @@ int encounterPokemon(Character *** players, int* worldX, int* worldY){
 
     return 0;
 }
+
 /*
 Input of player array, a specific character, the map struct, and the number of players in array
 This function sets (nextX, nextY)
@@ -2430,6 +2482,7 @@ This function sets (nextX, nextY)
 int findNextMove(Map *** mapArray, Character *** players, Character * c, Map ** m, int numPlayers, int* worldX, int* worldY){
     int i, j;
     int minDist = INT_MAX;
+    //If the we are finding the user's next move
     if (c->type == '@'){
         takePCmove(mapArray, &(*m)->characters, (*m)->characters[0], m, numPlayers, worldX, worldY);
         if (quitFlag == 0){
@@ -2438,28 +2491,33 @@ int findNextMove(Map *** mapArray, Character *** players, Character * c, Map ** 
         (*m)->characters[0]->mapX = (*m)->characters[0]->nextX;
         (*m)->characters[0]->mapY = (*m)->characters[0]->nextY;
 
+        //If on tall grass, give chance to encounter pokemon
         if ((*m)->grid[(*m)->characters[0]->mapX][(*m)->characters[0]->mapY] == ':'){
             if (rand() % 10 == 1 && checkPcPokemon(c) > 0){
                 encounterPokemon(players, worldX, worldY);
             }
 
         }
+        //if on pokemart, prompt user to enter
         else if ((*m)->grid[(*m)->characters[0]->mapX][(*m)->characters[0]->mapY] == 'M'){
             move(23,0);
             clrtoeol();
             mvprintw(23,0,"Press '>' to enter PokeMart ('shift' + '.')");
         }
+        //if on pokecenter, prompt user to enter
         else if ((*m)->grid[(*m)->characters[0]->mapX][(*m)->characters[0]->mapY] == 'C'){
             move(23,0);
             clrtoeol();
             mvprintw(23,0,"Press '>' to enter PokeMart ('shift' + '.')");
         }
+        //if player changes map, call changeMap()
         if (isOnMap(c->mapX, c->mapY) > 0 && isOnMap(c->mapX, c->mapY) < 5){                //player entered Some Gate
             changeMap(mapArray, m, isOnMap((*m)->characters[0]->mapX, (*m)->characters[0]->mapY), numPlayers, worldX, worldY);
             setTimePen(c, *m);
             return 0;
         }
 
+        //If the pc is on the same space as another trainer, enter battle
         for (i = 1; i < numPlayers; i ++){
             if ((*players)[0]->mapX == (*players)[i]->mapX && (*players)[0]->mapY == (*players)[i]->mapY && (*players)[i]->defeated == 1 && checkPcPokemon((*players)[0]) > 0){
                 enterBattle((*players)[0], (*players)[i]);
@@ -2469,14 +2527,13 @@ int findNextMove(Map *** mapArray, Character *** players, Character * c, Map ** 
             }
         }
 
+        //Update distance maps for other trainers
         updatehDist(*m, c);
         updaterDist(*m, c);
         setTimePen(c, *m);
         return 0;
-        //usleep(500000);
-        //Don't move '@' right now, move manually soon
-        //update rdist and hdist
     }
+    //If the player is of type 'h', move to cell with lowest distance to pc
     else if (c->type == 'h'){
         for (i = c->mapY - 1; i < c->mapY + 2; i ++){
             for (j = c->mapX - 1; j < c->mapX + 2; j ++){
@@ -2489,6 +2546,7 @@ int findNextMove(Map *** mapArray, Character *** players, Character * c, Map ** 
             }
         }
     }
+    //If the player is of type 'r', move to cell with lowest distance to pc
     else if (c->type == 'r'){
         //For every neighboring cell,
         for (i = c->mapY - 1; i < c->mapY + 2; i ++){
@@ -2512,6 +2570,7 @@ int findNextMove(Map *** mapArray, Character *** players, Character * c, Map ** 
         }
         //If it's direction is r
         else if (c->direction == 'r'){
+            //if the cell to the right is valid, move trainer, else choose a new direction at random
             if (isValid(c->mapX + 1, c->mapY) == 0 && placeValid(*m, c->mapX + 1, c->mapY, 'w') == 0 && spaceFree(players, numPlayers, c->mapX + 1, c->mapY) == 0 && isOnMap(c->mapX + 1, c->mapY) == 0){
                 c->nextX = c->mapX + 1;
                 c->nextY = c->mapY;
@@ -2529,6 +2588,7 @@ int findNextMove(Map *** mapArray, Character *** players, Character * c, Map ** 
                 }
             }
         }
+        //if the cell to the left is valid, move trainer, else choose a new direction at random
         else if (c->direction == 'l'){
             if (isValid(c->mapX - 1, c->mapY) == 0 && placeValid(*m, c->mapX - 1, c->mapY, 'w') == 0 && spaceFree(players, numPlayers, c->mapX - 1, c->mapY) == 0 && isOnMap(c->mapX - 1, c->mapY) == 0){
                 c->nextX = c->mapX - 1;
@@ -2547,6 +2607,7 @@ int findNextMove(Map *** mapArray, Character *** players, Character * c, Map ** 
                 }
             }
         }
+        //if the cell to the above is valid, move trainer, else choose a new direction at random
         else if (c->direction == 'u'){
             if (isValid(c->mapX, c->mapY - 1) == 0 && placeValid(*m, c->mapX, c->mapY - 1, 'w') == 0 && spaceFree(players, numPlayers, c->mapX, c->mapY - 1) == 0 && isOnMap(c->mapX, c->mapY - 1) == 0){
                 c->nextX = c->mapX;
@@ -2565,6 +2626,7 @@ int findNextMove(Map *** mapArray, Character *** players, Character * c, Map ** 
                 }
             }
         }
+        //if the cell to the below is valid, move trainer, else choose a new direction at random
         else if (c->direction == 'd'){
             if (isValid(c->mapX, c->mapY + 1) == 0 && placeValid(*m, c->mapX, c->mapY + 1, 'w') == 0 && spaceFree(players, numPlayers, c->mapX, c->mapY + 1) == 0 && isOnMap(c->mapX, c->mapY + 1) == 0){
                 c->nextX = c->mapX;
@@ -2585,6 +2647,7 @@ int findNextMove(Map *** mapArray, Character *** players, Character * c, Map ** 
         }
     }
 
+    //If character type is 'p'
     else if (c->type == 'p'){
         int number;
         //If it isn't initialized...
@@ -2723,6 +2786,9 @@ int findNextMove(Map *** mapArray, Character *** players, Character * c, Map ** 
     
 }
 
+/*
+This function sets a character's time penalty depending on which terrain type it is on
+*/
 int setTimePen(Character * c, Map * m){
     if (c->type == '@'){
         if (m->grid[c->mapX][c->mapY] == '.' || m->grid[c->mapX][c->mapY] == '#' || m->grid[c->mapX][c->mapY] == 'C' || m->grid[c->mapX][c->mapY] == 'M'){
@@ -2768,7 +2834,6 @@ int setTimePen(Character * c, Map * m){
 /*
 placeEnemies iterates for int numEnemies times, first chooses a type
 Choose a location for the player to be spawned, give the npc some pokemon,
-
 */
 void placeEnemies(Map* m, int numEnemies, Character *** players){
     char type = 'a';
@@ -2859,10 +2924,9 @@ void placeEnemies(Map* m, int numEnemies, Character *** players){
     }
 }
 
-//This implements Dijkstra's algorithm
-
-//Here, eType refer1es for which kind of enemy the cost graph is generated
-//calling eType = 1 stands for Hiker, eType = 2 stands for Rival, etc.
+/*
+This function implements Dijkstra's algorithm for finding the path with the least cost for hiker trainers
+*/
 void updatehDist(Map* m, Character * c){
     int visited [80][21];           //Holds 1 if visited, 0 if not
     int cost [80][21];
@@ -2944,6 +3008,9 @@ void updatehDist(Map* m, Character * c){
     }
 }
 
+/*
+This function implements Dijkstra's algorithm for finding the path with the least cost for rival trainers
+*/
 void updaterDist(Map* m, Character * c){
     int visited [80][21];           //Holds 1 if visited, 0 if not
     int cost [80][21];
@@ -3027,7 +3094,10 @@ void updaterDist(Map* m, Character * c){
 
 
 
-
+/*
+This function was used in testing that the cost maps properly calculate the fastest path for a 
+character to the pc
+*/
 void printDist(Map* m){
     int i,j;
     for (i = 0; i < 21; i++){
@@ -3055,8 +3125,10 @@ void printDist(Map* m){
     }
 }
 
-//For every space on the map, see if a character sits on that space. If there is a character,
-//print char, else, print the terrain
+/*
+For every space on the map, see if a character sits on that space. If there is a character, 
+print the character type, else, print the terrain
+*/
 void printMap(Map* m, Character ** players, int numPlayers, int worldX, int worldY){
     int i,j,t;
     int hasChar;
@@ -3140,6 +3212,10 @@ void printMap(Map* m, Character ** players, int numPlayers, int worldX, int worl
     refresh();
 }
 
+/*
+This function is useful when generating map terrain, it checks if 
+all the terrain has been generated
+*/
 int isFull(const Map* m){
     int i,j;
     for (j = 0; j < 21; j ++){
@@ -3152,6 +3228,10 @@ int isFull(const Map* m){
     return 0;
 }
 
+/*
+This function is helpful when smoothing out the terrain map, it checks how many characters around 
+one space are of a certain terrain type
+*/
 int numChars(int x, int y, char c, const Map* m){
     int count = 0;
     int j, i;
@@ -3164,8 +3244,11 @@ int numChars(int x, int y, char c, const Map* m){
     }
     return count;
 }
-//This function is my workhorse which grows a region around a growing radius
-//It is first called for radius 1 on each of my seed locations, then r = 2 and so on until the map is filled
+
+/*
+This function is my workhorse which grows a region around a growing radius
+It is first called for radius 1 on each of my seed locations, then r = 2 and so on until the map is filled
+*/
 void changeR(int x, int y, int r, Map* m){
     char type = (*m).grid[x][y];          //type set to input point
     int a, b;
@@ -3254,6 +3337,10 @@ void changeR(int x, int y, int r, Map* m){
     }
 }
 
+/*
+This function's purpose is to handle terrain initialization, it's called when an ininitialized
+map has been visited.
+*/
 void createMap(int n, int s, int e, int w, Map* m, int x, int y){
     m->initialized = 0;
     int i, j;
@@ -3568,20 +3655,21 @@ void createMap(int n, int s, int e, int w, Map* m, int x, int y){
     
 }
 
+//Main is called upon running the program
 int main(int argc, char *argv[]){
-    
+    //First initialize curses
     initscr();
     start_color();
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
-    //int quitFlag = 1;
 
     mvprintw(0, 0, "Loading...");
     refresh();
     flyFlag = 1;
     int numTrainers = 10;
     int opt;
+    //Check flags
     while((opt = getopt(argc, argv, "fn:")) != -1){
         switch (opt){
             case 'n':
@@ -3601,7 +3689,7 @@ int main(int argc, char *argv[]){
     int i, j;
     srand(time(NULL));
 
-        
+    //Allocate space for all of the maps        
     Map*** mapArray = (Map***)malloc(rows * sizeof(Map**));
     if (mapArray == NULL) {
         // Handle memory allocation error
@@ -3620,6 +3708,7 @@ int main(int argc, char *argv[]){
     
     
     //Don't change anything in above this in Main
+    //Read csv files 
     const char* filename = nullptr;
     const char* dbPath = "/pokedex/pokedex/data/csv/";
     const char* homeDir = "/share/cs327";
@@ -4242,6 +4331,7 @@ int main(int argc, char *argv[]){
     //place all the enemies across the map, put them in characters array
     placeEnemies(mapArray[currX][currY], numTrainers, &(mapArray[200][200]->characters));
 
+    //Prompt the user to choose one of 3 starter pokemon
     int pokeId1 = rand() % 1092;
     int pokeId2 = rand() % 1092;
     int pokeId3 = rand() % 1092;
@@ -4258,7 +4348,7 @@ int main(int argc, char *argv[]){
     mvprintw(1, 0, "1: (%s;    starting hp: %d    starting speed: %d)", newPokemon1->name.c_str(), newPokemon1->hp, newPokemon1->speed);
     mvprintw(2, 0, "2: (%s;    starting hp: %d    starting speed: %d)", newPokemon2->name.c_str(), newPokemon2->hp, newPokemon2->speed);
     mvprintw(3, 0, "3: (%s;    starting hp: %d    starting speed: %d)", newPokemon3->name.c_str(), newPokemon3->hp, newPokemon3->speed);
-
+    //Give user instructions
     mvprintw(5, 0, "Welcome to Pokemon, Read this for some instruction:");
     mvprintw(7, 0, "Pick a starter pokemon, then you'll enter the center map in a world of pokemon.");
     mvprintw(8, 0, "You are the '@', other trainers are represented by characters like 'r' and 'e'.");
@@ -4300,12 +4390,15 @@ int main(int argc, char *argv[]){
     (*mapArray[200][200]->characters[0]->pokemonArray[0]).setStats();
 
     mvprintw(23,0, "Controls: h(L), j(D), k(U), l(R), y(U&L), u(U&R), b(D&L), n(D&R)");
+
+    //Initialize the game by printing the starting map and setting first moves for characters
     printMap(mapArray[currX][currY], mapArray[200][200]->characters, numTrainers + 1, 200, 200);
 
     for (i = 0; i < numTrainers + 1; i ++){
         findNextMove(mapArray, &(mapArray[200][200]->characters), mapArray[200][200]->characters[i], &mapArray[currX][currY], numTrainers + 1, &currX, &currY);
     }
 
+    //Check if the user quit off rip
     if (quitFlag == 0){
         for (i = 0; i < 23; i ++){
             move(i,0);
@@ -4353,7 +4446,7 @@ int main(int argc, char *argv[]){
 
     printMap(mapArray[currX][currY], mapArray[200][200]->characters, numTrainers + 1, 200, 200);
 
-    //Forever, ...
+    //Forever, call gameTurn until the user quits...
     while (quitFlag == 1){   
         gameTurn(mapArray, mapArray[currX][currY], &(mapArray[currX][currY]->characters), numTrainers + 1, &currX, &currY);
     }   
@@ -4368,7 +4461,8 @@ int main(int argc, char *argv[]){
 
     usleep(1000000);
 
-   for (i = 0; i < rows; i++) {
+    // free memory
+    for (i = 0; i < rows; i++) {
         for (j = 0; j < columns; j++) {
             delete mapArray[i][j];
         }
